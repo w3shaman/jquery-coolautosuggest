@@ -23,4 +23,3 @@ mysql_close($con);
 
 // Encode it with JSON format
 echo json_encode($arr);
-?>
