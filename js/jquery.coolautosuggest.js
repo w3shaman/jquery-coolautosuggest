@@ -1,9 +1,9 @@
 /**
  * jQuery Plugin for creating AJAX auto-suggest textfield
- * @version 2.1
+ * @version 2.2
  * @requires jQuery 1.4 or later
  *
- * Copyright (c) 2011 Lucky
+ * Copyright (c) 2016 Lucky
  * Licensed under the GPL license:
  *   http://www.gnu.org/licenses/gpl.html
  */
@@ -45,7 +45,10 @@
               url:me.callBackUrl + encodeURI($(this).val()),
               success:function(data){
                 try{
-                  me.arrData=$.parseJSON(data);
+                  if (typeof data == 'string')
+                    me.arrData=$.parseJSON(data);
+                  else if (typeof data == 'object')
+                    me.arrData=data;
 
                   var arr=me.arrData;
                   var html="";
@@ -364,13 +367,6 @@
       if(settings.showDescription==true){
         obj.description=settings.showDescription;
       }
-
-      /*if(obj.idField!=null){
-        if(obj.checkSelected(obj.textField.val())==false){
-          obj.textField.val("");
-          obj.idField.val("");
-        }
-      }*/
 
       if($.isFunction(settings.onSelected)==true){
         obj.onSelected=settings.onSelected;

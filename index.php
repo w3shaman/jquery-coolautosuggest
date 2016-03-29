@@ -185,6 +185,7 @@ $("#text5").coolautosuggest({
 <pre class="php" style="font-family:monospace;"><span style="color: #000000; font-weight: bold;">&lt;?php</span> 
 <a href="http://www.php.net/header"><span style="color: #990000;">header</span></a><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;Cache-Control: no-cache, must-revalidate&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span> 
 <a href="http://www.php.net/header"><span style="color: #990000;">header</span></a><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;Expires: Mon, 26 Jul 1997 05:00:00 GMT&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span> 
+<a href="http://www.php.net/header"><span style="color: #990000;">header</span></a><span style="color: #009900;">&#40;</span><span style="color: #0000ff;">&quot;Content-type: application/json&quot;</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span> 
 &nbsp;
 <span style="color: #000088;">$host</span><span style="color: #339933;">=</span><span style="color: #0000ff;">&quot;localhost&quot;</span><span style="color: #339933;">;</span> 
 <span style="color: #000088;">$username</span><span style="color: #339933;">=</span><span style="color: #0000ff;">&quot;test&quot;</span><span style="color: #339933;">;</span> 
