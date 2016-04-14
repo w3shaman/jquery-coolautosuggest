@@ -8,24 +8,12 @@
  */
 
 (function($) {
-  function autosuggest(callBackUrl, textField){
+  function autosuggest(settings, textField){
     this.divId="suggestions_holder";
     this.hovered=false;
     this.arrData=null;
 
     this.textField=textField;
-    this.callBackUrl=callBackUrl;
-
-    var width=this.textField.width() + 3;
-    var minChars=1;
-    var currRow=0;
-    var suggestRow="suggest_row";
-    var suggestItem="suggest_item";
-
-    this.idField=null;
-    this.submitOnSelect=false;
-    this.thumbnail=false;
-    this.description=false;
 
     this.textField.after('<div class="suggestions" id="' + this.divId + '"></div>');
     this.textField.attr("autocomplete", "off");
@@ -33,26 +21,38 @@
     this.holder=this.textField.next("#" + this.divId);
     this.holder.hide();
 
-    this.onSelected=null;
+    // Prevent ENTER default action if needed.
+    if(settings.idField!=null || settings.submitOnSelect==true || settings.preventEnter==true){
+      this.textField.keypress(
+        function(e){
+          if(e.keyCode==13){
+            return false;
+          }
 
-    this.additionalFields = null;
+          return true;
+        }
+      );
+    }
 
-    var _strAdditionalFields = "";
+    var currRow=0;
+    var suggestRow="suggest_row";
+    var suggestItem="suggest_item";
+    var additionalFields = "";
 
     var me=this;
     this.textField.keyup(
       function(e){
         if(e.keyCode!=37 && e.keyCode!=38 && e.keyCode!=39 && e.keyCode!=40 && e.keyCode!=13){
-          if($(this).val().length>=minChars){
-            _strAdditionalFields = "";
-            if (typeof me.additionalFields == "object") {
-              for (var key in me.additionalFields){
-                _strAdditionalFields = _strAdditionalFields + key + encodeURI(me.additionalFields[key].val());
+          if($(this).val().length>=settings.minChars){
+            additionalFields = "";
+            if (typeof settings.additionalFields == "object") {
+              for (var key in settings.additionalFields){
+                additionalFields = additionalFields + key + encodeURI(settings.additionalFields[key].val());
               }
             }
 
             $.ajax({
-              url:me.callBackUrl + encodeURI($(this).val()) + _strAdditionalFields,
+              url:settings.url + encodeURI($(this).val()) + additionalFields,
               success:function(data){
                 try{
                   if (typeof data == 'string')
@@ -81,12 +81,12 @@
                         }
 
                         var id_field='';
-                        if(me.idField!=null){
+                        if(settings.idField!=null){
                           id_field=' id_field="' + arr[i].id + '"';
                         }
 
                         var thumb="";
-                        if(me.thumbnail==true){
+                        if(settings.thumbnail==true){
                           var style="";
                           if(arr[i].thumbnail!=undefined){
                             style=' style="background-image:url(' + arr[i].thumbnail + ');"';
@@ -95,7 +95,7 @@
                         }
 
                         var desc="";
-                        if(me.description==true){
+                        if(settings.description==true){
                           if(arr[i].description!=undefined){
                             desc='<div class="description">' + arr[i].description + '</div>';
                           }
@@ -121,16 +121,16 @@
 
                         target.click(function(e){
                           me.textField.val($(this).find(".suggestion_title").text());
-                          if(me.idField!=null){
-                            me.idField.val($(this).attr("id_field"));
+                          if(settings.idField!=null){
+                            settings.idField.val($(this).attr("id_field"));
                           }
 
                           // Callback function
-                          if(me.onSelected!=null){
-                            me.onSelected.call(this, me.arrData[$(this).attr("seq_id")]);
+                          if(typeof settings.onSelected == "function"){
+                            settings.onSelected.call(this, me.arrData[$(this).attr("seq_id")]);
                           }
 
-                          if(me.submitOnSelect==true){
+                          if(settings.submitOnSelect==true){
                             $("form").has(me.textField).submit();
                           }
 
@@ -164,8 +164,8 @@
           }
           else{
             // Callback function
-            if(me.onSelected!=null){
-              me.onSelected.call(this, null);
+            if(typeof settings.onSelected == "function"){
+              settings.onSelected.call(this, null);
             }
           }
         }
@@ -175,10 +175,10 @@
     this.textField.bind(
       "blur",
       function(e){
-        if(me.idField!=null){
+        if(settings.idField!=null){
           if(me.checkSelected(me.textField.val())==false){
             me.textField.val("");
-            me.idField.val("");
+            settings.idField.val("");
           }
         }
 
@@ -200,11 +200,11 @@
       });
 
       this.holder.css({
-        "width":width + "px"
+        "width":settings.width + "px"
       });
 
       this.holder.find("." + suggestItem).css({
-        "width":width + "px",
+        "width":settings.width + "px",
         "overflow":"hidden"
       });
 
@@ -228,26 +228,6 @@
       if(!rgx.test(currRow)){
         currRow=0;
       }
-    }
-
-    this.setWidth=function(w){
-      width=w;
-    }
-
-    this.setMinChars=function(c){
-      minChars=c;
-    }
-
-    this.preventEnter=function(){
-      this.textField.keypress(
-        function(e){
-          if(e.keyCode==13){
-            return false;
-          }
-
-          return true;
-        }
-      );
     }
 
     this.checkSelected=function(data){
@@ -276,8 +256,8 @@
 
             target.addClass("selected");
             me.textField.val(target.find(".suggestion_title").text());
-            if(me.idField!=null){
-              me.idField.val(target.attr("id_field"));
+            if(settings.idField!=null){
+              settings.idField.val(target.attr("id_field"));
             }
           }
           else{
@@ -295,8 +275,8 @@
 
             target.addClass("selected");
             me.textField.val(target.find(".suggestion_title").text());
-            if(me.idField!=null){
-              me.idField.val(target.attr("id_field"));
+            if(settings.idField!=null){
+              settings.idField.val(target.attr("id_field"));
             }
           }
           else{
@@ -304,20 +284,20 @@
           }
         }
         else if(e.keyCode==13){
-          if(me.idField!=null){
+          if(settings.idField!=null){
             if(me.checkSelected(me.textField.val())==false){
               me.textField.val("");
-              me.idField.val("");
+              settings.idField.val("");
             }
           }
 
           // Callback function
-          if(me.onSelected!=null){
+          if(typeof settings.onSelected == "function"){
             if(currRow>0){
-              me.onSelected.call(this, me.arrData[currRow-1]);
+              settings.onSelected.call(this, me.arrData[currRow-1]);
             }
             else{
-              me.onSelected.call(this, null);
+              settings.onSelected.call(this, null);
             }
           }
 
@@ -326,8 +306,8 @@
       }
       else{
         // Callback function
-        if(me.onSelected!=null){
-          me.onSelected.call(this, null);
+        if(typeof settings.onSelected == "function"){
+          settings.onSelected.call(this, null);
         }
       }
 
@@ -336,54 +316,23 @@
   }
 
   $.fn.coolautosuggest = function(options) {
+    var textfield = $(this);
     var settings = {
-      width: null,
-      minChars: null,
-      idField: null,
-      submitOnSelect: false,
+      url : null,
+      width : textfield.width() + 3,
+      minChars : 1,
+      idField : null,
+      submitOnSelect : false,
       showThumbnail : false,
       showDescription : false,
       onSelected : null,
+      preventEnter : false,
       additionalFields : []
     };
     $.extend(settings, options);
 
     return this.each(function() {
-      var obj = new autosuggest(settings.url, $(this));
-
-      if(settings.width!=null){
-        obj.setWidth(settings.width);
-      }
-
-      if(settings.minChars!=null){
-        obj.setMinChars(settings.minChars);
-      }
-
-      if(settings.idField!=null){
-        obj.idField=settings.idField;
-        obj.preventEnter();
-      }
-
-      if(settings.submitOnSelect==true){
-        obj.submitOnSelect=true;
-      }
-      else{
-        obj.preventEnter();
-      }
-
-      if(settings.showThumbnail==true){
-        obj.thumbnail=settings.showThumbnail;
-      }
-
-      if(settings.showDescription==true){
-        obj.description=settings.showDescription;
-      }
-
-      if($.isFunction(settings.onSelected)==true){
-        obj.onSelected=settings.onSelected;
-      }
-
-      obj.additionalFields = settings.additionalFields;
+      var obj = new autosuggest(settings, textfield);
     });
   }
 })(jQuery);
