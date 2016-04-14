@@ -1,6 +1,5 @@
 /**
  * jQuery Plugin for creating AJAX auto-suggest textfield
- * @version 2.2
  * @requires jQuery 1.4 or later
  *
  * Copyright (c) 2016 Lucky
@@ -36,13 +35,24 @@
 
     this.onSelected=null;
 
+    this.additionalFields = null;
+
+    var _strAdditionalFields = "";
+
     var me=this;
     this.textField.keyup(
       function(e){
         if(e.keyCode!=37 && e.keyCode!=38 && e.keyCode!=39 && e.keyCode!=40 && e.keyCode!=13){
           if($(this).val().length>=minChars){
+            _strAdditionalFields = "";
+            if (typeof me.additionalFields == "object") {
+              for (var key in me.additionalFields){
+                _strAdditionalFields = _strAdditionalFields + key + encodeURI(me.additionalFields[key].val());
+              }
+            }
+
             $.ajax({
-              url:me.callBackUrl + encodeURI($(this).val()),
+              url:me.callBackUrl + encodeURI($(this).val()) + _strAdditionalFields,
               success:function(data){
                 try{
                   if (typeof data == 'string')
@@ -333,7 +343,8 @@
       submitOnSelect: false,
       showThumbnail : false,
       showDescription : false,
-      onSelected : null
+      onSelected : null,
+      additionalFields : []
     };
     $.extend(settings, options);
 
@@ -371,6 +382,8 @@
       if($.isFunction(settings.onSelected)==true){
         obj.onSelected=settings.onSelected;
       }
+
+      obj.additionalFields = settings.additionalFields;
     });
   }
 })(jQuery);
