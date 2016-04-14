@@ -86,7 +86,7 @@
                         }
 
                         var thumb="";
-                        if(settings.thumbnail==true){
+                        if(settings.showThumbnail==true){
                           var style="";
                           if(arr[i].thumbnail!=undefined){
                             style=' style="background-image:url(' + arr[i].thumbnail + ');"';
@@ -95,7 +95,7 @@
                         }
 
                         var desc="";
-                        if(settings.description==true){
+                        if(settings.showDescription==true){
                           if(arr[i].description!=undefined){
                             desc='<div class="description">' + arr[i].description + '</div>';
                           }
