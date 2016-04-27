@@ -21,6 +21,11 @@
     this.holder=this.textField.next("#" + this.divId);
     this.holder.hide();
 
+    // Default width is textfield width + 3px
+    if (settings.width == null) {
+      settings.width = textField.width() + 3;
+    }
+
     // Prevent ENTER default action if needed.
     if(settings.idField!=null || settings.submitOnSelect==true || settings.preventEnter==true){
       this.textField.keypress(
@@ -146,11 +151,15 @@
                   }
                 }
                 catch(e){
-                  alert('Sorry, an error has occured!');
+                  if(typeof settings.onError === "function"){
+                    settings.onError.call();
+                  }
                 }
               },
               error: function(xhr, status, ex){
-                alert('Sorry, an error has occured!');
+                if(typeof settings.onError === "function"){
+                  settings.onError.call();
+                }
               }
             });
           }
@@ -316,23 +325,25 @@
   }
 
   $.fn.coolautosuggest = function(options) {
-    var textfield = $(this);
     var settings = {
       url : null,
-      width : textfield.width() + 3,
+      width : null,
       minChars : 1,
       idField : null,
       submitOnSelect : false,
       showThumbnail : false,
       showDescription : false,
       onSelected : null,
+      onError : function () {
+        alert("Sorry, an error has occured!");
+      },
       preventEnter : false,
       additionalFields : []
     };
     $.extend(settings, options);
 
     return this.each(function() {
-      var obj = new autosuggest(settings, textfield);
+      var obj = new autosuggest(settings, $(this));
     });
   }
 })(jQuery);
