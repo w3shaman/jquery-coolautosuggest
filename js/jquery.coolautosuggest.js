@@ -106,7 +106,7 @@
                           }
                         }
 
-                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="suggestion_title">' + arr[i].data.replace(new RegExp('(' + textField.val() + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
+                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="suggestion_title">' + arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
                       }
 
                       holder.html(html);
@@ -321,6 +321,10 @@
       }
 
       return true;
+    }
+
+    function escapeRegExp(str) {
+      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
   }
 
