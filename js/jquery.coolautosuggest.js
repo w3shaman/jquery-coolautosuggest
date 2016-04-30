@@ -9,13 +9,13 @@
 
 (function($) {
   function autosuggest(settings, txtField){
-    var divId="suggestions_holder";
+    var divId=settings.divId;
     var hovered=false;
     var arrData=null;
 
     var textField=txtField;
 
-    textField.after('<div class="suggestions" id="' + divId + '"></div>');
+    textField.after('<div class="' + settings.divClass + '" id="' + divId + '"></div>');
     textField.attr("autocomplete", "off");
 
     var holder=textField.next("#" + divId);
@@ -40,8 +40,9 @@
     }
 
     var currRow=0;
-    var suggestRow="suggest_row";
-    var suggestItem="suggest_item";
+    var suggestRow=settings.rowIdPrefix;
+    var suggestItem=settings.rowClass;
+    var suggestText=settings.rowTextClass;
     var additionalFields = "";
 
     var me=this;
@@ -96,17 +97,17 @@
                           if(arr[i].thumbnail!=undefined){
                             style=' style="background-image:url(' + arr[i].thumbnail + ');"';
                           }
-                          thumb='<div class="thumbnail"' + style + '></div>';
+                          thumb='<div class="' + settings.rowThumbnailClass + '"' + style + '></div>';
                         }
 
                         var desc="";
                         if(settings.showDescription==true){
                           if(arr[i].description!=undefined){
-                            desc='<div class="description">' + arr[i].description + '</div>';
+                            desc='<div class="' + settings.rowDescriptionClass + '">' + arr[i].description + '</div>';
                           }
                         }
 
-                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="suggestion_title">' + arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
+                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="' + suggestText + '">' + arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
                       }
 
                       holder.html(html);
@@ -125,7 +126,7 @@
                         });
 
                         target.click(function(e){
-                          textField.val($(this).find(".suggestion_title").text());
+                          textField.val($(this).find("." + suggestText).text());
                           if(settings.idField!=null){
                             settings.idField.val($(this).attr("id_field"));
                           }
@@ -264,7 +265,7 @@
             var target=holder.find("#" + suggestRow + currRow);
 
             target.addClass("selected");
-            textField.val(target.find(".suggestion_title").text());
+            textField.val(target.find("." + suggestText).text());
             if(settings.idField!=null){
               settings.idField.val(target.attr("id_field"));
             }
@@ -283,7 +284,7 @@
             var target=holder.find("#" + suggestRow + currRow);
 
             target.addClass("selected");
-            textField.val(target.find(".suggestion_title").text());
+            textField.val(target.find("." + suggestText).text());
             if(settings.idField!=null){
               settings.idField.val(target.attr("id_field"));
             }
@@ -342,7 +343,14 @@
         alert("Sorry, an error has occured!");
       },
       preventEnter : false,
-      additionalFields : []
+      additionalFields : [],
+      divId : "suggestions_holder",
+      divClass : "suggestions",
+      rowIdPrefix : "suggest_row",
+      rowClass : "suggest_item",
+      rowTextClass : "suggestion_title",
+      rowThumbnailClass : "thumbnail",
+      rowDescriptionClass : "description"
     };
     $.extend(settings, options);
 
