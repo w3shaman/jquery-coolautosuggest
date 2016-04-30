@@ -124,11 +124,12 @@ $("#text4").coolautosuggest({
 		<div>
 			<form>
 				<p>For this new version, you can use one callback function which can be used via <b>onSelected</b> parameter. This callback function will be executed when you made a selection on one item (by clicking it or pressing 'Enter'). By using this callback feature you can retrieve the selected object to be used later in your code.</p>
-				Public figure name : <input type="text" name="text5" id="text5" /><br/>
-				ID : <input type="text" name="text5_id" id="text5_id" size="5" /><br/>
-				Profession : <input type="text" name="text5_profession" id="text5_profession" /><br/>
-				Picture :
-				<div id="picture"></div>
+				<table>
+					<tr><td>Public figure name : </td><td><input type="text" name="text5" id="text5" /></td></tr>
+					<tr><td>ID : </td><td><input type="text" name="text5_id" id="text5_id" size="5" /></td></tr>
+					<tr><td>Profession : </td><td><input type="text" name="text5_profession" id="text5_profession" /></td></tr>
+					<tr><td>Picture : </td><td><div id="picture"></div></td></tr>
+				</table>
 				<script language="javascript" type="text/javascript">
 					$("#text5").coolautosuggest({
 						url:"data.php?chars=",
@@ -177,16 +178,114 @@ $("#text5").coolautosuggest({
 		</div>
 	</fieldset>
 	<br/>
+	<fieldset id="fieldset7">
+	  <legend><b>Additional Dynamic Query String</b></legend>
+		<div>
+			<form>
+				<p>We can pass additional query string to the request URL. For the example, we may need to filter the autocomplete list based on the previously selected profession.</p>
+				<table>
+					<tr><td>Profession :</td><td>
+						<select name="profession">
+							<option value="Football player">Football player</option>
+							<option value="Musician">Musician</option>
+							<option value="Actor">Actor</option>
+							<option value="Actress">Actress</option>
+						</select></td></tr>
+					<tr><td>Public figure name : </td><td><input type="text" name="text6" id="text6" /></td></tr>
+					<tr><td>ID : </td><td><input type="text" name="text6_id" id="text6_id" size="5" /></td></tr>
+					<tr><td>Picture : </td><td><div id="picture2"></div></td></tr>
+				</table>
+				<script language="javascript" type="text/javascript">
+					$("#text6").coolautosuggest({
+						url:"data.php?chars=",
+						showThumbnail:true,
+						showDescription:true,
+						additionalFields:{
+							"&profession=" : $("select[name=profession]")
+						},
+						onSelected:function(result){
+						  // Check if the result is not null
+						  if(result!=null){
+						    $("#text6_id").val(result.id); // Get the ID field
+						    $("#picture2").html('<img src="' + result.thumbnail + '" alt="" />'); // Get the picture thumbnail
+						  }
+						  else{
+						    $("#text6_id").val(""); // Empty the ID field
+						    $("#picture2").html(""); // Empty the picture thumbnail
+						  }
+						}
+					});
+				</script>
+				<p>Sample code :</p>
+<pre>
+$("#text6").coolautosuggest({
+  url:"data.php?chars=",
+  showThumbnail:true,
+  showDescription:true,
+  <b>additionalFields:{
+    "&amp;profession=" : $("select[name=profession]")
+  }</b>,
+  onSelected:function(result){
+    // Check if the result is not null
+    if(result!=null){
+      $("#text6_id").val(result.id); // Get the ID field
+      $("#picture").html('&lt;img src="' + result.thumbnail + '" alt="" /&gt;'); // Get the picture thumbnail
+    }
+    else{
+      $("#text6_id").val(""); // Empty the ID field
+      $("#picture").html(''); // Empty the picture thumbnail
+    }
+  }
+});
+</pre>
+			</form>
+		</div>
+	</fieldset>
+	<br/>
 	<fieldset id="fieldset6">
 		<legend><b>Server Side Script</b></legend>
 		<div>
 			<p>For the server side script which populate the auto-suggest data, you can use the code below. Please remember that the data is transferred in JSON format.</p>
-<pre class="php" style="font-family:monospace;"><span style="color: #0000BB">&lt;?php<br />header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Cache-Control: no-cache, must-revalidate"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Expires: Mon, 26 Jul 1997 05:00:00 GMT"</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">header</span><span style="color: #007700">(</span><span style="color: #DD0000">"Content-type: application/json"</span><span style="color: #007700">);
-<p></p></span><span style="color: #0000BB">$host</span><span style="color: #007700">=</span><span style="color: #DD0000">"localhost"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$username</span><span style="color: #007700">=</span><span style="color: #DD0000">"test"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$password</span><span style="color: #007700">=</span><span style="color: #DD0000">"123456"</span><span style="color: #007700">;<br /></span><span style="color: #0000BB">$database</span><span style="color: #007700">=</span><span style="color: #DD0000">"test"</span><span style="color: #007700">;
-<p></p></span><span style="color: #0000BB">$con</span><span style="color: #007700">=</span><span style="color: #0000BB">mysqli_connect</span><span style="color: #007700">(</span><span style="color: #0000BB">$host</span><span style="color: #007700">,</span><span style="color: #0000BB">$username</span><span style="color: #007700">,</span><span style="color: #0000BB">$password</span><span style="color: #007700">,</span><span style="color: #0000BB">$database</span><span style="color: #007700">);
-<p></p></span><span style="color: #0000BB">$arr</span><span style="color: #007700">=array();<br /></span><span style="color: #0000BB">$result</span><span style="color: #007700">=</span><span style="color: #0000BB">mysqli_query</span><span style="color: #007700">(</span><span style="color: #0000BB">$con</span><span style="color: #007700">,</span><span style="color: #DD0000">"SELECT * FROM people WHERE name LIKE '%"</span><span style="color: #007700">.</span><span style="color: #0000BB">mysqli_real_escape_string</span><span style="color: #007700">(</span><span style="color: #0000BB">$con</span><span style="color: #007700">,</span><span style="color: #0000BB">$_GET</span><span style="color: #007700">[</span><span style="color: #DD0000">'chars'</span><span style="color: #007700">]).</span><span style="color: #DD0000">"%' ORDER BY name LIMIT 0, 10"</span><span style="color: #007700">);<br />if(</span><span style="color: #0000BB">mysqli_num_rows</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">)&gt;</span><span style="color: #0000BB">0</span><span style="color: #007700">){<br />    while(</span><span style="color: #0000BB">$data</span><span style="color: #007700">=</span><span style="color: #0000BB">mysqli_fetch_row</span><span style="color: #007700">(</span><span style="color: #0000BB">$result</span><span style="color: #007700">)){<br />        </span><span style="color: #FF8000">// Store data in array <br />        // You can add any additional fields to be used by the autosuggest callback function <br />        </span><span style="color: #0000BB">$arr</span><span style="color: #007700">[]=array(<br />            </span><span style="color: #DD0000">"id" </span><span style="color: #007700">=&gt; </span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #0000BB">0</span><span style="color: #007700">],<br />            </span><span style="color: #DD0000">"data" </span><span style="color: #007700">=&gt; </span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #0000BB">1</span><span style="color: #007700">],<br />            </span><span style="color: #DD0000">"thumbnail" </span><span style="color: #007700">=&gt; </span><span style="color: #DD0000">'thumbnails/'</span><span style="color: #007700">.</span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #0000BB">3</span><span style="color: #007700">],<br />            </span><span style="color: #DD0000">"description" </span><span style="color: #007700">=&gt; </span><span style="color: #0000BB">$data</span><span style="color: #007700">[</span><span style="color: #0000BB">2</span><span style="color: #007700">],<br />            </span><span style="color: #FF8000">// Additional fields (if any)...<br />        </span><span style="color: #007700">);<br />    }<br />}
-<p></p></span><span style="color: #0000BB">mysqli_close</span><span style="color: #007700">(</span><span style="color: #0000BB">$con</span><span style="color: #007700">);
-<p></p></span><span style="color: #FF8000">// Encode it with JSON format<br /></span><span style="color: #007700">echo </span><span style="color: #0000BB">json_encode</span><span style="color: #007700">(</span><span style="color: #0000BB">$arr</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">?&gt;</pre>
+<pre>
+&lt;?php
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Content-type: application/json");
+
+$host="localhost";
+$username="root";
+$password="";
+$database="test";
+
+$con=mysqli_connect($host,$username,$password,$database);
+
+$arr=array();
+
+$profession = "";
+if (isset($_GET['profession'])) {
+    $profession = " AND description = '" . mysqli_real_escape_string($con, $_GET['profession']) . "' ";
+}
+
+$result=mysqli_query($con,"SELECT * FROM people WHERE name LIKE '%".mysqli_real_escape_string($con,$_GET['chars'])."%' " . $profession . " ORDER BY name LIMIT 0, 10");
+if(mysqli_num_rows($result)&gt;0){
+    while($data=mysqli_fetch_row($result)){
+        // Store data in array 
+        // You can add any additional fields to be used by the autosuggest callback function 
+        $arr[]=array(
+            "id" =&gt; $data[0],
+            "data" =&gt; $data[1],
+            "thumbnail" =&gt; 'thumbnails/'.$data[3],
+            "description" =&gt; $data[2],
+            // Additional fields (if any)...
+        );
+    }
+}
+
+mysqli_close($con);
+
+// Encode it with JSON format
+echo json_encode($arr);
+</pre>
 		</div>
 	</fieldset>
 </body>
