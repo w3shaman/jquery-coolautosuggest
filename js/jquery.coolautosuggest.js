@@ -48,7 +48,7 @@
     var me=this;
     textField.keyup(
       function(e){
-        if(e.keyCode!=37 && e.keyCode!=38 && e.keyCode!=39 && e.keyCode!=40 && e.keyCode!=13){
+        if($.inArray(e.keyCode, [37, 38, 39, 40, 13, 9, 16, 17, 18]) == -1){
           if($(this).val().length>=settings.minChars){
             additionalFields = "";
             if (typeof settings.additionalFields == "object") {
@@ -172,12 +172,6 @@
           if(holder.css("display")!="none"){
             checkKey(e);
           }
-          else{
-            // Callback function
-            if(typeof settings.onSelected == "function"){
-              settings.onSelected.call(this, null);
-            }
-          }
         }
       }
     );
@@ -190,6 +184,10 @@
             textField.val("");
             settings.idField.val("");
           }
+        }
+
+        if(typeof settings.onSelected == "function" && currRow>0){
+          settings.onSelected.call(this, arrData[currRow-1]);
         }
 
         if(hovered==false){
