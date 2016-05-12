@@ -182,7 +182,7 @@ $("#text5").coolautosuggest({
 	  <legend><b>Additional Dynamic Query String</b></legend>
 		<div>
 			<form>
-				<p>We can pass additional query string to the request URL. For the example, we may need to filter the autocomplete list based on the previously selected profession.</p>
+				<p>We can pass additional dynamic query string to the request URL. For the example, we may need to filter the autocomplete list based on the previously selected profession.</p>
 				<table>
 					<tr><td>Profession :</td><td>
 						<select name="profession">
@@ -269,8 +269,8 @@ if (isset($_GET['profession'])) {
 $result=mysqli_query($con,"SELECT * FROM people WHERE name LIKE '%".mysqli_real_escape_string($con,$_GET['chars'])."%' " . $profession . " ORDER BY name LIMIT 0, 10");
 if(mysqli_num_rows($result)&gt;0){
     while($data=mysqli_fetch_row($result)){
-        // Store data in array 
-        // You can add any additional fields to be used by the autosuggest callback function 
+        // Store data in array
+        // You can add any additional fields to be used by the autosuggest callback function
         $arr[]=array(
             "id" =&gt; $data[0],
             "data" =&gt; $data[1],
@@ -285,6 +285,59 @@ mysqli_close($con);
 
 // Encode it with JSON format
 echo json_encode($arr);
+
+</pre>
+		<p>Or, you can use the PDO instead of mysqli_ like following.</p>
+<pre>
+&lt;?php
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Content-type: application/json");
+
+$host="localhost";
+$username="root";
+$password="";
+$database="test";
+
+$db = new PDO("mysql:host=$host;dbname=$database" , $username , $password);
+
+$arr = array();
+
+$where = array();
+$where[':name'] = '%' . $_GET['chars'] . '%';
+
+$profession = "";
+if (isset($_GET['profession'])) {
+    $profession = " AND description = :description ";
+    $where[':description'] = $_GET['profession'];
+}
+
+$sql = "SELECT * FROM people WHERE name LIKE :name " . $profession . " ORDER BY name LIMIT 0, 10";
+
+$query = $db-&gt;prepare($sql, array(PDO::ATTR_CURSOR =&gt; PDO::CURSOR_FWDONLY));
+$query-&gt;execute($where);
+
+$result = $query-&gt;fetchAll();
+if ($query-&gt;rowCount() &gt; 0) {
+    foreach ($result as $data) {
+        // Store data in array
+        // You can add any additional fields to be used by the autosuggest callback function
+        $arr[]=array(
+            "id" =&gt; $data['id'],
+            "data" =&gt; $data['name'],
+            "thumbnail" =&gt; 'thumbnails/'.$data['photo'],
+            "description" =&gt; $data['description'],
+            // Additional fields (if any)...
+        );
+    }
+}
+
+// Close connection.
+$db = null;
+
+// Encode it with JSON format
+echo json_encode($arr);
+
 </pre>
 		</div>
 	</fieldset>
