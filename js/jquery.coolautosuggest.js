@@ -15,6 +15,9 @@
 
     var textField=txtField;
 
+    var timer;
+    var mouseStopped = true;
+
     textField.after('<div class="' + settings.divClass + '" id="' + divId + '"></div>');
     textField.attr("autocomplete", "off");
 
@@ -115,32 +118,37 @@
                       for(i=1;i<=arr.length;i++){
                         var target=holder.find("#" + suggestRow + i);
                         target.mouseover(function(e){
-                          hovered=true;
-                          me.unSelectAll(this);
-                          $(this).addClass("selected");
+                          if (mouseStopped == false) {
+                            hovered=true;
+                            me.unSelectAll(this);
+                            var t = $(this);
+                            highlight(t);
+                          }
                         });
 
                         target.mouseout(function(e){
                           hovered=false;
-                          $(this).removeClass("selected");
+                          me.unSelectAll(this);
                         });
 
                         target.click(function(e){
-                          textField.val($(this).find("." + suggestText).text());
-                          if(settings.idField!=null){
-                            settings.idField.val($(this).attr("id_field"));
-                          }
+                          var t = $(this);
+                          highlight(t);
 
                           // Callback function
                           if(typeof settings.onSelected == "function"){
-                            settings.onSelected.call(this, arrData[$(this).attr("seq_id")]);
+                            settings.onSelected.call(this, arrData[t.attr("seq_id")]);
                           }
 
-                          if(settings.submitOnSelect==true){
-                            $("form").has(textField).submit();
-                          }
+                          autoSubmit();
 
                           me.hide();
+                        });
+
+                        target.mousemove(function(e){
+                          mouseStopped = false;
+                          clearTimeout(timer);
+                          timer = setTimeout(mouseStop, 200);
                         });
                       }
 
@@ -186,15 +194,16 @@
           }
         }
 
-        if(typeof settings.onSelected == "function" && currRow>0){
-          settings.onSelected.call(this, arrData[currRow-1]);
-        }
-
         if(hovered==false){
           me.hide();
         }
         else{
           hovered=false;
+        }
+
+        if(typeof settings.onSelected == "function" && currRow>0){
+          settings.onSelected.call(this, arrData[currRow-1]);
+          me.hide();
         }
       }
     );
@@ -256,17 +265,10 @@
         if(e.keyCode==40){
           currRow++;
           if(currRow<=rows){
-            if(currRow>0){
-              holder.find("#" + suggestRow + (currRow-1)).removeClass("selected");
-            }
-
             var target=holder.find("#" + suggestRow + currRow);
+            me.unSelectAll(target);
 
-            target.addClass("selected");
-            textField.val(target.find("." + suggestText).text());
-            if(settings.idField!=null){
-              settings.idField.val(target.attr("id_field"));
-            }
+            highlight(target);
           }
           else{
             currRow=rows;
@@ -275,17 +277,10 @@
         else if(e.keyCode==38){
           currRow--;
           if(currRow>0){
-            if(currRow<rows){
-              holder.find("#" + suggestRow + (currRow+1)).removeClass("selected");
-            }
-
             var target=holder.find("#" + suggestRow + currRow);
+            me.unSelectAll(target);
 
-            target.addClass("selected");
-            textField.val(target.find("." + suggestText).text());
-            if(settings.idField!=null){
-              settings.idField.val(target.attr("id_field"));
-            }
+            highlight(target);
           }
           else{
             currRow=1;
@@ -324,6 +319,24 @@
 
     function escapeRegExp(str) {
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+
+    function highlight(obj, e) {
+      obj.addClass("selected");
+      textField.val(obj.find("." + suggestText).text());
+      if(settings.idField!=null){
+        settings.idField.val(obj.attr("id_field"));
+      }
+    }
+
+    function autoSubmit() {
+      if(settings.submitOnSelect==true){
+        $("form").has(textField).submit();
+      }
+    }
+
+    function mouseStop(){
+      mouseStopped = true;
     }
   }
 
