@@ -23,7 +23,7 @@
 				<p>The code :</p>
 <pre>
 $("#text1").coolautosuggest({
-	url:"data.php?chars="
+  url:"data.php?chars="
 });
 </pre>
 			</form>
@@ -45,8 +45,8 @@ $("#text1").coolautosuggest({
 				<p>The code :</p>
 <pre>
 $("#text2").coolautosuggest({
-	url:"data.php?chars=",
-	idField:$("#text2_id")
+  url:"data.php?chars=",
+  idField:$("#text2_id")
 });
 </pre>
 			</form>
@@ -69,9 +69,9 @@ $("#text2").coolautosuggest({
 				<p>The code :</p>
 <pre>
 $("#text3").coolautosuggest({
-	url:"data.php?chars=",
-	showThumbnail:true,
-	showDescription:true
+  url:"data.php?chars=",
+  showThumbnail:true,
+  showDescription:true
 });
 </pre>
 				<br/>
@@ -106,13 +106,13 @@ $("#text3").coolautosuggest({
 				<p>The code :</p>
 <pre>
 $("#text4").coolautosuggest({
-	url:"data.php?chars=",
-	showThumbnail:true,
-	showDescription:true,
-	idField:$("#text4_id"),
-	width:300,
-	minChars:2,
-	submitOnSelect:true
+  url:"data.php?chars=",
+  showThumbnail:true,
+  showDescription:true,
+  idField:$("#text4_id"),
+  width:300,
+  minChars:2,
+  submitOnSelect:true
 });
 </pre>
 			</form>
@@ -156,7 +156,7 @@ $("#text5").coolautosuggest({
   url:"data.php?chars=",
   showThumbnail:true,
   showDescription:true,
-  <i><b>onSelected</b>:function(result){
+  <b>onSelected:function(result){
     // Check if the result is not null
     if(result!=null){
       $("#text5_id").val(result.id); // Get the ID field
@@ -168,7 +168,7 @@ $("#text5").coolautosuggest({
       $("#text5_profession").val(""); // Empty the description
       $("#picture").html(''); // Empty the picture thumbnail
     }
-  }</i>
+  }</b>
 });
 </pre>
       <br/>
@@ -201,7 +201,7 @@ $("#text5").coolautosuggest({
 						showThumbnail:true,
 						showDescription:true,
 						additionalFields:{
-							"&profession=" : $("select[name=profession]")
+							"&profession=" : $("select[name=profession]") // We can use more than one criteria if needed.
 						},
 						onSelected:function(result){
 						  // Check if the result is not null
@@ -223,7 +223,7 @@ $("#text6").coolautosuggest({
   showThumbnail:true,
   showDescription:true,
   <b>additionalFields:{
-    "&amp;profession=" : $("select[name=profession]")
+    "&amp;profession=" : $("select[name=profession]") // We can use more than one criteria if needed.
   }</b>,
   onSelected:function(result){
     // Check if the result is not null
@@ -236,6 +236,36 @@ $("#text6").coolautosuggest({
       $("#picture").html(''); // Empty the picture thumbnail
     }
   }
+});
+</pre>
+			<br/>
+			<b><i>Note :</i></b>
+			<p><i>The <b>additionalFields</b> should be in key value pair. The string we used for the key is flexible, it can be "&amp;profession=" or "/profession/" or anything depend on our needs.</i></p>
+			</form>
+		</div>
+	</fieldset>
+	<br/>
+  <fieldset id="fieldset8">
+	  <legend><b>Error Callback</b></legend>
+		<div>
+			<form>
+				<p>We can also use custom error callback function to display custom error message when there is something wrong on the autocomplete process.</p>
+				Public figure name : <input type="text" name="text7" id="text7" />
+				<script language="javascript" type="text/javascript">
+					$("#text7").coolautosuggest({
+						url:"notfound.php?chars=", // We point to wrong URL to raise error.
+						onError:function() {
+							alert("Hey, it seems something error has happened.");
+						}
+					});
+				</script>
+				<p>Sample code :</p>
+<pre>
+$("#text7").coolautosuggest({
+  url:"notfound.php?chars=", // We point to wrong URL to raise error.
+  <b>onError:function() {
+    alert("Hey, it seems something error has happened.");
+  }</b>
 });
 </pre>
 			</form>
