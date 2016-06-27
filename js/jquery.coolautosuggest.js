@@ -62,6 +62,16 @@
 
             $.ajax({
               url:settings.url + encodeURI($(this).val()) + additionalFields,
+              beforeSend : function(){
+                if(typeof settings.onRequest === "function"){
+                  settings.onRequest.call();
+                }
+              },
+              complete : function(){
+                if(typeof settings.onComplete === "function"){
+                  settings.onComplete.call();
+                }
+              },
               success:function(data){
                 try{
                   if (typeof data == 'string')
@@ -353,6 +363,8 @@
       onError : function () {
         alert("Sorry, an error has occured!");
       },
+      onRequest : null,
+      onComplete : null,
       preventEnter : false,
       additionalFields : [],
       divId : "suggestions_holder",

@@ -272,6 +272,42 @@ $("#text7").coolautosuggest({
 		</div>
 	</fieldset>
 	<br/>
+	<fieldset id="fieldset9">
+		<legend><b>Before And After Request Callback</b></legend>
+		<div>
+			<p>By using this callback, we can display loading image when the autocomplete list is being populated the hide it when the list is completely populated. Of course there are other possibilities we can do using these callback functions.</p>
+			<ul>
+				<li><b>onRequest</b>. This parameter can be used to call a function before the AJAX request is sent.</li>
+				<li><b>onComplete</b>. This parameter can be used to call a function after the AJAX request is completed.</li>
+			</ul>
+			Public figure name : <input type="text" name="text8" id="text8" /> <img src="images/loader.gif" id="loading8" style="display:none" /><br/>
+			<i>* The loading indicator will appear when we are typing some letters.</i>
+			<script language="javascript" type="text/javascript">
+				$("#text8").coolautosuggest({
+					url:"data.php?chars=",
+					onRequest:function() {
+						$("#loading8").show();
+					},
+					onComplete:function() {
+						$("#loading8").hide();
+					}
+				});
+			</script>
+			<p>Sample code :</p>
+<pre>
+$("#text8").coolautosuggest({
+  url:"data.php?chars=",
+  <b>onRequest:function() {
+    $("#loading8").show();
+  },
+  onComplete:function() {
+    $("#loading8").hide();
+  }</b>
+});
+</pre>
+		</div>
+	</fieldset>
+	<br/>
 	<fieldset id="fieldset6">
 		<legend><b>Server Side Script</b></legend>
 		<div>
