@@ -74,9 +74,9 @@
               },
               success:function(data){
                 try{
-                  if (typeof data == 'string')
+                  if (typeof data == "string")
                     arrData=$.parseJSON(data);
-                  else if (typeof data == 'object')
+                  else if (typeof data == "object")
                     arrData=data;
 
                   var arr=arrData;
@@ -99,28 +99,46 @@
                           cssClass+=" last";
                         }
 
-                        var id_field='';
+                        var template = settings.template;
+                        template=template.replace("[rowClass]", cssClass);
+
+                        var id_field="";
                         if(settings.idField!=null){
-                          id_field=' id_field="' + arr[i].id + '"';
+                          id_field=arr[i].id;
                         }
 
-                        var thumb="";
+                        template=template.replace("[id_field]", id_field);
+
+                        var style="";
+                        var thumbClass="";
                         if(settings.showThumbnail==true){
-                          var style="";
                           if(arr[i].thumbnail!=undefined){
-                            style=' style="background-image:url(' + arr[i].thumbnail + ');"';
+                            style='background-image:url(' + arr[i].thumbnail + ');';
+                            thumbClass=settings.rowThumbnailClass;
                           }
-                          thumb='<div class="' + settings.rowThumbnailClass + '"' + style + '></div>';
                         }
+
+                        template=template.replace("[style]", style);
+                        template=template.replace("[thumbnailClass]", thumbClass);
 
                         var desc="";
+                        var descClass="";
                         if(settings.showDescription==true){
                           if(arr[i].description!=undefined){
-                            desc='<div class="' + settings.rowDescriptionClass + '">' + arr[i].description + '</div>';
+                            descClass=settings.rowDescriptionClass;
+                            desc=arr[i].description;
                           }
                         }
 
-                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="' + suggestText + '">' + arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
+                        template=template.replace("[descriptionClass]", descClass);
+                        template=template.replace("[description]", desc);
+
+                        template=template.replace("[rowId]", suggestRow + (i+1));
+                        template=template.replace("[seq_id]", i);
+                        template=template.replace("[dataClass]", suggestText);
+                        template=template.replace("[data]", arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
+
+                        html+=template;
                       }
 
                       holder.html(html);
@@ -373,7 +391,12 @@
       rowClass : "suggest_item",
       rowTextClass : "suggestion_title",
       rowThumbnailClass : "thumbnail",
-      rowDescriptionClass : "description"
+      rowDescriptionClass : "description",
+      template : '<div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]" >' +
+          '<div class="[thumbnailClass]" style="[style]"></div>' +
+          '<div class="[descriptionClass]">[description]</div>' +
+          '<div class="[dataClass]">[data]</div>' +
+        '</div>'
     };
     $.extend(settings, options);
 
