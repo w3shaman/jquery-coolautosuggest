@@ -1,0 +1,28 @@
+{
+  "name": "jquery-coolautosuggest",
+  "version": "2.3.1",
+  "description": "JQuery Plugin for AJAX auto-suggest or auto-complete with many cool options.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w3shaman/jquery-coolautosuggest.git"
+  },
+  "keywords": [
+    "jquery",
+    "ajax",
+    "autocomplete",
+    "autosuggest"
+  ],
+  "author": "w3shaman",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/w3shaman/jquery-coolautosuggest/issues"
+  },
+  "homepage": "http://w3shaman.com/article/jquery-cool-auto-suggest",
+  "dependencies": {
+    "jquery": ">=1.4"
+  }
+}
