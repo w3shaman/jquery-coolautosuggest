@@ -1,6 +1,6 @@
 /**
  * jQuery Plugin for creating AJAX auto-suggest textfield
- * @version 2.3.1
+ * @version 2.3.2
  * @requires jQuery 1.4 or later
  *
  * Copyright (c) 2017 Lucky
