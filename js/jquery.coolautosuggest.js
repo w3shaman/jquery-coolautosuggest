@@ -118,6 +118,13 @@
 
                       for(i=1;i<=arr.length;i++){
                         var target=holder.find("#" + suggestRow + i);
+                        target.bind('touchstart touchend', function(e) {
+                            hovered=false;
+                            me.unSelectAll(this);
+                            var t = $(this);
+                            highlight(t);
+                        });
+
                         target.mouseover(function(e){
                           if (mouseStopped == false) {
                             hovered=true;
