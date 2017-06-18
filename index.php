@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>jQuery Cool Auto-Suggest</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script language="javascript" type="text/javascript" src="js/jquery.coolautosuggest.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/jquery.coolautosuggest.css" />
