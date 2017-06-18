@@ -123,6 +123,7 @@
                             me.unSelectAll(this);
                             var t = $(this);
                             highlight(t);
+                            autoSubmit();
                         });
 
                         target.mouseover(function(e){
