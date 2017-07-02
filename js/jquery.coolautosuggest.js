@@ -244,15 +244,15 @@
       }
     );
 
+    $(document).scroll(function(e) {
+      positionHolder();
+    });
+
     this.show=function(height){
-      holder.css({
-        "position":"fixed",
-        "left":(textField.offset().left - $(document).scrollLeft()) + "px",
-        "top":(textField.offset().top + textField.height() + 5 - $(document).scrollTop()) + "px",
-        "height":height + "px"
-      });
+      positionHolder();
 
       holder.css({
+        "height":height + "px",
         "width":settings.width + "px"
       });
 
@@ -373,6 +373,14 @@
 
     function mouseStop(){
       mouseStopped = true;
+    }
+
+    function positionHolder() {
+      holder.css({
+        "position":"fixed",
+        "left":(textField.offset().left - $(document).scrollLeft()) + "px",
+        "top":(textField.offset().top + textField.height() + 5 - $(document).scrollTop()) + "px"
+      });
     }
   }
 

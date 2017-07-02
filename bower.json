@@ -1,6 +1,6 @@
 {
   "name": "jquery-coolautosuggest",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "JQuery Plugin for AJAX auto-suggest or auto-complete with many cool options.",
   "main": "index.js",
   "authors": [
