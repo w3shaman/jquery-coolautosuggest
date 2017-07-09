@@ -309,6 +309,50 @@ $("#text8").coolautosuggest({
 		</div>
 	</fieldset>
 	<br/>
+	<fieldset id="fieldset10">
+		<legend><b>Default Template Overriding</b></legend>
+		<div>
+			<p>We can override the default template for the autocomplete. There are two template options, <b>template</b> and <b>templateAlt</b>. The <b>template</b> stores the default template. The <b>templateAlt</b> can be used to override the template for items in even sequence in the autocomplete list. To override the template both for odd and even items, just overriding the <b>template</b> is enough.</p>
+			<p>The following example demonstrate overriding the even template by adding a CSS class. By doing that, we can have the alternate effect for odd and even items.</p>
+			Public figure name : <input type="text" name="text9" id="text9" /><br/>
+			<script language="javascript" type="text/javascript">
+				$('#text9').coolautosuggest({
+					url:'data.php?chars=',
+					showThumbnail:true,
+					showDescription:true,
+					templateAlt: '<div id="[rowId]" class="[rowClass] even" id_field="[id_field]" seq_id="[seq_id]" >' +
+							'<div class="[thumbnailClass]" style="[style]"></div>' +
+							'<div class="[textClass]">[text]</div>' +
+							'<div class="[descriptionClass]">[description]</div>' +
+						'</div>'
+				});
+			</script>
+		</div>
+		<p>Samle Code</p>
+		<pre>
+$('#text9').coolautosuggest({
+  url:'data.php?chars=',
+  showThumbnail:true,
+  showDescription:true,
+  templateAlt: '&lt;div id="[rowId]" class="[rowClass] <b>even</b>" id_field="[id_field]" seq_id="[seq_id]" &gt;' +
+      '&lt;div class="[thumbnailClass]" style="[style]"&gt;&lt;/div&gt;' +
+      '&lt;div class="[textClass]"&gt;[text]&lt;/div&gt;' +
+      '&lt;div class="[descriptionClass]"&gt;[description]&lt;/div&gt;' +
+    '&lt;/div&gt;'
+});
+		</pre>
+		<p>We also need some adjustment in the CSS file. Just add the following lines.</p>
+		<pre>
+.suggestions .suggest_item.even {
+  background-color:#DDDDDD;
+}
+
+.suggestions .suggest_item.even .thumbnail{
+  float: right;
+}
+		</pre>
+	</fieldset>
+	<br/>
 	<fieldset id="fieldset6">
 		<legend><b>Server Side Script</b></legend>
 		<div>

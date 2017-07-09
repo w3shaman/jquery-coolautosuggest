@@ -99,7 +99,11 @@
                           cssClass+=" last";
                         }
 
-                        var template = settings.template;
+                        var template=settings.template;
+                        if(i%2!=0 && settings.templateAlt!=null){
+                          template=settings.templateAlt;
+                        }
+
                         template=template.replace("[rowClass]", cssClass);
 
                         var id_field="";
@@ -135,8 +139,8 @@
 
                         template=template.replace("[rowId]", suggestRow + (i+1));
                         template=template.replace("[seq_id]", i);
-                        template=template.replace("[dataClass]", suggestText);
-                        template=template.replace("[data]", arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
+                        template=template.replace("[textClass]", suggestText);
+                        template=template.replace("[text]", arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
 
                         html+=template;
                       }
@@ -408,11 +412,12 @@
       rowTextClass : "suggestion_title",
       rowThumbnailClass : "thumbnail",
       rowDescriptionClass : "description",
-      template : '<div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]" >' +
+      template: '<div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]" >' +
           '<div class="[thumbnailClass]" style="[style]"></div>' +
+          '<div class="[textClass]">[text]</div>' +
           '<div class="[descriptionClass]">[description]</div>' +
-          '<div class="[dataClass]">[data]</div>' +
-        '</div>'
+        '</div>',
+      templateAlt : null
     };
     $.extend(settings, options);
 
