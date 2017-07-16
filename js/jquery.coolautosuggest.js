@@ -92,6 +92,14 @@
                       for(i=0;i<arr.length;i++){
                         cssClass=suggestItem;
 
+                        var template=settings.template;
+                        if(i%2!=0) {
+                          cssClass+=" even";
+                        }
+                        else {
+                          cssClass+=" odd";
+                        }
+
                         if(i==0){
                           cssClass+=" first";
                         }
@@ -99,19 +107,14 @@
                           cssClass+=" last";
                         }
 
-                        var template=settings.template;
-                        if(i%2!=0 && settings.templateAlt!=null){
-                          template=settings.templateAlt;
-                        }
-
-                        template=template.replace("[rowClass]", cssClass);
+                        template=template.replace(/\[rowClass\]/g, cssClass);
 
                         var id_field="";
                         if(settings.idField!=null){
                           id_field=arr[i].id;
                         }
 
-                        template=template.replace("[id_field]", id_field);
+                        template=template.replace(/\[id_field\]/g, id_field);
 
                         var style="";
                         var thumbClass="";
@@ -122,8 +125,8 @@
                           }
                         }
 
-                        template=template.replace("[style]", style);
-                        template=template.replace("[thumbnailClass]", thumbClass);
+                        template=template.replace(/\[style\]/g, style);
+                        template=template.replace(/\[thumbnailClass\]/g, thumbClass);
 
                         var desc="";
                         var descClass="";
@@ -134,13 +137,13 @@
                           }
                         }
 
-                        template=template.replace("[descriptionClass]", descClass);
-                        template=template.replace("[description]", desc);
+                        template=template.replace(/\[descriptionClass\]/g, descClass);
+                        template=template.replace(/\[description\]/g, desc);
 
-                        template=template.replace("[rowId]", suggestRow + (i+1));
-                        template=template.replace("[seq_id]", i);
-                        template=template.replace("[textClass]", suggestText);
-                        template=template.replace("[text]", arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
+                        template=template.replace(/\[rowId\]/g, suggestRow + (i+1));
+                        template=template.replace(/\[seq_id\]/g, i);
+                        template=template.replace(/\[textClass\]/g, suggestText);
+                        template=template.replace(/\[text\]/g, arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
 
                         html+=template;
                       }
@@ -416,8 +419,7 @@
           '<div class="[thumbnailClass]" style="[style]"></div>' +
           '<div class="[textClass]">[text]</div>' +
           '<div class="[descriptionClass]">[description]</div>' +
-        '</div>',
-      templateAlt : null
+        '</div>'
     };
     $.extend(settings, options);
 
