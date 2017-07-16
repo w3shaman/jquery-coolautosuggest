@@ -312,18 +312,20 @@ $("#text8").coolautosuggest({
 	<fieldset id="fieldset10">
 		<legend><b>Default Template Overriding</b></legend>
 		<div>
-			<p>We can override the default template for the autocomplete. There are two template options, <b>template</b> and <b>templateAlt</b>. The <b>template</b> stores the default template. The <b>templateAlt</b> can be used to override the template for items in even sequence in the autocomplete list. To override the template both for odd and even items, just overriding the <b>template</b> is enough.</p>
-			<p>The following example demonstrate overriding the even template by adding a CSS class. By doing that, we can have the alternate effect for odd and even items.</p>
+			<p>We can also override the default HTML template for the autocomplete list item.</p>
+			<p>The following example demonstrate overriding the even template to display the description and thumbnail on mouseover only.</p>
 			Public figure name : <input type="text" name="text9" id="text9" /><br/>
 			<script language="javascript" type="text/javascript">
 				$('#text9').coolautosuggest({
 					url:'data.php?chars=',
 					showThumbnail:true,
 					showDescription:true,
-					templateAlt: '<div id="[rowId]" class="[rowClass] even" id_field="[id_field]" seq_id="[seq_id]" >' +
-							'<div class="[thumbnailClass]" style="[style]"></div>' +
+					template: '<div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]"' +
+								' onmouseover="$(&quot;#[rowId] .hide&quot;).show()"' +
+								' onmouseout="$(&quot;#[rowId] .hide&quot;).hide()">' +
+							'<div class="[thumbnailClass] hide" style="[style];float:right;display:none;"></div>' +
 							'<div class="[textClass]">[text]</div>' +
-							'<div class="[descriptionClass]">[description]</div>' +
+							'<div class="[descriptionClass] hide" style="display:none;">[description]</div>' +
 						'</div>'
 				});
 			</script>
@@ -334,22 +336,14 @@ $('#text9').coolautosuggest({
   url:'data.php?chars=',
   showThumbnail:true,
   showDescription:true,
-  templateAlt: '&lt;div id="[rowId]" class="[rowClass] <b>even</b>" id_field="[id_field]" seq_id="[seq_id]" &gt;' +
-      '&lt;div class="[thumbnailClass]" style="[style]"&gt;&lt;/div&gt;' +
-      '&lt;div class="[textClass]"&gt;[text]&lt;/div&gt;' +
-      '&lt;div class="[descriptionClass]"&gt;[description]&lt;/div&gt;' +
-    '&lt;/div&gt;'
+  template: '&lt;div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]"' +
+        ' <b>onmouseover="$(&amp;quot;#[rowId] .hide&amp;quot;).show()"</b>' +
+        ' <b>onmouseout="$(&amp;quot;#[rowId] .hide&amp;quot;).hide()"</b>>' +
+      '&lt;div class="[thumbnailClass] <b>hide</b>" style="[style];<b>float:right;display:none;</b>">&lt;/div>' +
+      '&lt;div class="[textClass]">[text]&lt;/div>' +
+      '&lt;div class="[descriptionClass] <b>hide</b>" <b>style="display:none;"</b>>[description]&lt;/div>' +
+    '&lt;/div>'
 });
-		</pre>
-		<p>We also need some adjustment in the CSS file. Just add the following lines.</p>
-		<pre>
-.suggestions .suggest_item.even {
-  background-color:#DDDDDD;
-}
-
-.suggestions .suggest_item.even .thumbnail{
-  float: right;
-}
 		</pre>
 	</fieldset>
 	<br/>
