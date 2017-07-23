@@ -3,6 +3,7 @@
 <head>
   <title>jQuery Cool Auto-Suggest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="JQuery plugin for creating Ajax driven autocomplete/autosuggest with many options such as thumbnail image, before and after load callback function, default template overriding, etc." />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script language="javascript" type="text/javascript" src="js/jquery.coolautosuggest.js"></script>
   <link rel="stylesheet" type="text/css" href="css/jquery.coolautosuggest.css" />
@@ -10,6 +11,7 @@
 </head>
 <body>
   <h1>jQuery Cool Auto-Suggest</h1>
+  <p class="description">JQuery plugin for creating <strong>Ajax</strong> driven <strong>autocomplete/autosuggest</strong> with many options such as thumbnail image, before and after load callback function, default template overriding, etc. Look and feel can be freely customized using CSS.</p>
   <div class="row">
     <div class="example">
       <div class="title">Classic Style</div>

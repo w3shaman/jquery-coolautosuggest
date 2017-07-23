@@ -4,8 +4,8 @@ body {
   margin: auto;
 }
 
-h1 {
-  margin: 0 0 40px 3px;
+h1, p.description {
+  margin: 0 3px 25px 3px;
 }
 
 pre {
