@@ -51,7 +51,7 @@ $("#text2").coolautosuggest({
   url:"data.php?chars=",
   idField:$("#text2_id")
 });
-  </pre>
+</pre>
         </form>
       </div>
     </div>
@@ -80,17 +80,17 @@ $("#text3").coolautosuggest({
 </pre>
           <br/>
           <b><i>Note :</i></b>
-          <p><i>Image thumbnail's width and height can be set from the CSS file.<br/>For a better appearance, I recommend that all images must have the same width and height.</i></p>
+          <p><i>Image thumbnail's width and height can be set from the CSS file.<br/>For the best output, I recommend that all images must have the same width and height.</i></p>
         </form>
       </div>
     </div>
     <div class="example">
-      <div class="title">Other Options</div>
+      <div class="title">Some Other Options</div>
       <div>
         <form>
-          <p>These are the other usefull parameters which you can use. Here they are.</p>
+          <p>There are also some usefull options such as:</p>
           <ul>
-            <li><b>width</b>. Basically, the width will be automatically adjusted to textfield's width. By using this parameter, you can customize the auto-suggest width to suit your need.</li>
+            <li><b>width</b>. Basically, the auto-suggest width will be the same as the textfield's width. By using this parameter, you can customize the auto-suggest width to suit your need.</li>
             <li><b>minChars</b>. By default, the auto-suggest will appear if you type the first letter. You can set the number characters typed to trigger the auto-suggest to appear by using this parameter.</li>
             <li><b>submitOnSelect</b>. By setting this parameter value to <b>true</b>, the form will be submitted once you click one of the item in the auto-suggest list.</li>
           </ul>
@@ -124,10 +124,10 @@ $("#text4").coolautosuggest({
   </div>
   <div class="row">
     <div class="example">
-      <div class="title">Callback Function</div>
+      <div class="title more">Callback Function</div>
       <div>
         <form>
-          <p>For this new version, you can use one callback function which can be used via <b>onSelected</b> parameter. This callback function will be executed when you made a selection on one item (by clicking it or pressing 'Enter'). By using this callback feature you can retrieve the selected object to be used later in your code.</p>
+          <p>There is a callback function which can be used via <b>onSelected</b> parameter. This callback function will be executed when you made a selection on one item (by clicking it or pressing 'Enter'). By using this callback feature you can retrieve the selected object to be used later in your code.</p>
           <table>
             <tr><td>Public figure name : </td><td><input type="text" name="text5" id="text5" /></td></tr>
             <tr><td>ID : </td><td><input type="text" name="text5_id" id="text5_id" size="5" /></td></tr>
@@ -182,10 +182,10 @@ $("#text5").coolautosuggest({
       </div>
     </div>
     <div class="example">
-      <div class="title">Additional Dynamic Query String</div>
+      <div class="title more">Additional Dynamic Query String</div>
       <div>
         <form>
-          <p>We can pass additional dynamic query string to the request URL. For the example, we may need to filter the autocomplete list based on the previously selected profession.</p>
+          <p>We can pass additional <b>dynamic query string</b> to the request URL. For the example, we may need to filter the autocomplete list based on the previously selected profession.</p>
           <table>
             <tr><td>Profession :</td><td>
               <select name="profession">
@@ -243,17 +243,17 @@ $("#text6").coolautosuggest({
 </pre>
         <br/>
         <b><i>Note :</i></b>
-        <p><i>The <b>additionalFields</b> should be in key value pair. The string we used for the key is flexible, it can be "&amp;profession=" or "/profession/" or anything depend on our needs.</i></p>
+        <p><i>The <b>additionalFields</b> should be in key value pair. The string we used for the key is flexible, it can be "&amp;profession=" or "/profession/" or anything depending on your needs.</i></p>
         </form>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="example">
-      <div class="title">Error Callback</div>
+      <div class="title more">Error Callback</div>
       <div>
         <form>
-          <p>We can also use custom error callback function to display custom error message when there is something wrong on the autocomplete process.</p>
+          <p>We can also use custom error callback function to display <b>custom error message</b> when there is something wrong on the autocomplete process.</p>
           Public figure name : <input type="text" name="text7" id="text7" />
           <script language="javascript" type="text/javascript">
             $("#text7").coolautosuggest({
@@ -276,9 +276,9 @@ $("#text7").coolautosuggest({
       </div>
     </div>
     <div class="example">
-      <div class="title">Before And After Request Callback</div>
+      <div class="title more">Before And After Request Callback</div>
       <div>
-        <p>By using this callback, we can display loading image when the autocomplete list is being populated the hide it when the list is completely populated. Of course there are other possibilities we can do using these callback functions.</p>
+        <p>By using this callback, we can display <b>loading indicator image</b> when the autocomplete list is being populated then hide it when the list is completely populated. Of course there are other possibilities we can do using these callback functions.</p>
         <ul>
           <li><b>onRequest</b>. This parameter can be used to call a function before the AJAX request is sent.</li>
           <li><b>onComplete</b>. This parameter can be used to call a function after the AJAX request is completed.</li>
@@ -315,8 +315,7 @@ $("#text8").coolautosuggest({
     <div class="example full">
       <div class="title new">Default Template Overriding</div>
       <div>
-        <p>We can also override the default HTML template for the autocomplete list item.</p>
-        <p>The following example demonstrates the default template overriding to display the item description and thumbnail on mouseover only.</p>
+        <p>We can also override the default HTML template for the autocomplete list item. The following example demonstrates the template overriding trick to <b>display the item description and thumbnail on mouseover only</b>.</p>
         Public figure name : <input type="text" name="text9" id="text9" /><br/>
         <script language="javascript" type="text/javascript">
           $('#text9').coolautosuggest({
@@ -333,8 +332,8 @@ $("#text8").coolautosuggest({
           });
         </script>
       </div>
-      <p>Samle Code</p>
-      <pre>
+      <p>Sample Code</p>
+<pre>
 $('#text9').coolautosuggest({
   url:'data.php?chars=',
   showThumbnail:true,
@@ -347,7 +346,11 @@ $('#text9').coolautosuggest({
       '&lt;div class="[descriptionClass] <b>hide</b>" <b>style="display:none;"</b>>[description]&lt;/div>' +
     '&lt;/div>'
 });
-      </pre>
+</pre>
+      <p>The example above is just one thing you can do with this option. There are many other possibilities you can achieve by using this feature.</p>
+      <br/>
+      <b><i>Note :</i></b>
+      <p><i>In the sample code, you can see that there are some placeholders such as [rowId], [rowClass], etc. Just leave them unchanged because they are required in order to make the auto-suggest works properly.</i></p>
     </div>
   </div>
   <div class="row">
@@ -395,7 +398,6 @@ mysqli_close($con);
 
 // Encode it with JSON format
 echo json_encode($arr);
-
 </pre>
       <p>For PHP language, you can also use the PDO instead of mysqli_ like following.</p>
 <pre>
@@ -447,7 +449,6 @@ $db = null;
 
 // Encode it with JSON format
 echo json_encode($arr);
-
 </pre>
       </div>
     </div>

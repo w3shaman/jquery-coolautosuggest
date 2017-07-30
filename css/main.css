@@ -23,9 +23,13 @@ pre {
 
 .example .title {
   font-weight: bold;
-  background-color: #2C6DAC;
+  background-color: #429A6E;
   color: #fff;
   padding: 5px;
+}
+
+.example .title.more {
+  background-color: #2C6DAC;
 }
 
 .example .title.new {
@@ -33,7 +37,7 @@ pre {
 }
 
 .example .title.code {
-  background-color: #41861C;
+  background-color: #A4101C;
 }
 
 @media (min-width: 1024px) {
