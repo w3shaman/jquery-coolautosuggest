@@ -354,7 +354,7 @@ $('#text9').coolautosuggest({
     </div>
   </div>
   <div class="row">
-    <br/><br/>
+    <br/>
     <div class="example full">
       <div class="title code">Server Side Code</div>
       <div>
