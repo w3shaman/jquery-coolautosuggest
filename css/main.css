@@ -1,0 +1,56 @@
+body {
+  font-family: arial;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1, p.description {
+  margin: 0 3px 25px 3px;
+}
+
+pre {
+  max-width: 95%;
+  margin: auto;
+  overflow: auto;
+  background-color: #000;
+  color: #8DF159;
+  padding: 3px;
+}
+
+.example {
+  margin: 0px 3px 10px 3px;
+}
+
+.example .title {
+  font-weight: bold;
+  background-color: #429A6E;
+  color: #fff;
+  padding: 5px;
+}
+
+.example .title.more {
+  background-color: #2C6DAC;
+}
+
+.example .title.new {
+  background-color: #F17A07;
+}
+
+.example .title.code {
+  background-color: #A4101C;
+}
+
+@media (min-width: 1024px) {
+  .row {
+    clear: both;
+  }
+
+  .example {
+    width: 49%;
+    float: left;
+  }
+}
+
+.example.full {
+  width:100%;
+}

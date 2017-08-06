@@ -1,6 +1,6 @@
 /**
  * jQuery Plugin for creating AJAX auto-suggest textfield
- * @version 2.3.3
+ * @version 2.4.0
  * @requires jQuery 1.4 or later
  *
  * Copyright (c) 2017 Lucky
@@ -63,11 +63,21 @@
 
             $.ajax({
               url:settings.url + encodeURI($(this).val()) + additionalFields,
+              beforeSend : function(){
+                if(typeof settings.onRequest === "function"){
+                  settings.onRequest.call();
+                }
+              },
+              complete : function(){
+                if(typeof settings.onComplete === "function"){
+                  settings.onComplete.call();
+                }
+              },
               success:function(data){
                 try{
-                  if (typeof data == 'string')
+                  if (typeof data == "string")
                     arrData=$.parseJSON(data);
-                  else if (typeof data == 'object')
+                  else if (typeof data == "object")
                     arrData=data;
 
                   var arr=arrData;
@@ -83,6 +93,14 @@
                       for(i=0;i<arr.length;i++){
                         cssClass=suggestItem;
 
+                        var template=settings.template;
+                        if(i%2!=0) {
+                          cssClass+=" even";
+                        }
+                        else {
+                          cssClass+=" odd";
+                        }
+
                         if(i==0){
                           cssClass+=" first";
                         }
@@ -90,28 +108,45 @@
                           cssClass+=" last";
                         }
 
-                        var id_field='';
+                        template=template.replace(/\[rowClass\]/g, cssClass);
+
+                        var id_field="";
                         if(settings.idField!=null){
-                          id_field=' id_field="' + arr[i].id + '"';
+                          id_field=arr[i].id;
                         }
 
-                        var thumb="";
+                        template=template.replace(/\[id_field\]/g, id_field);
+
+                        var style="";
+                        var thumbClass="";
                         if(settings.showThumbnail==true){
-                          var style="";
                           if(arr[i].thumbnail!=undefined){
-                            style=' style="background-image:url(' + arr[i].thumbnail + ');"';
+                            style='background-image:url(' + arr[i].thumbnail + ');';
+                            thumbClass=settings.rowThumbnailClass;
                           }
-                          thumb='<div class="' + settings.rowThumbnailClass + '"' + style + '></div>';
                         }
+
+                        template=template.replace(/\[style\]/g, style);
+                        template=template.replace(/\[thumbnailClass\]/g, thumbClass);
 
                         var desc="";
+                        var descClass="";
                         if(settings.showDescription==true){
                           if(arr[i].description!=undefined){
-                            desc='<div class="' + settings.rowDescriptionClass + '">' + arr[i].description + '</div>';
+                            descClass=settings.rowDescriptionClass;
+                            desc=arr[i].description;
                           }
                         }
 
-                        html+='<div id="' + suggestRow + (i+1) + '" class="' + cssClass + '"' + id_field + ' seq_id="' + i + '" >' + thumb + '<div class="' + suggestText + '">' + arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>") + '</div>' + desc + '</div>';
+                        template=template.replace(/\[descriptionClass\]/g, descClass);
+                        template=template.replace(/\[description\]/g, desc);
+
+                        template=template.replace(/\[rowId\]/g, suggestRow + (i+1));
+                        template=template.replace(/\[seq_id\]/g, i);
+                        template=template.replace(/\[textClass\]/g, suggestText);
+                        template=template.replace(/\[text\]/g, arr[i].data.replace(new RegExp('(' + escapeRegExp(textField.val()) + ')', 'gi'), "<b>$1</b>"));
+
+                        html+=template;
                       }
 
                       holder.html(html);
@@ -370,6 +405,8 @@
       onError : function () {
         alert("Sorry, an error has occured!");
       },
+      onRequest : null,
+      onComplete : null,
       preventEnter : false,
       additionalFields : [],
       divId : "suggestions_holder",
@@ -378,7 +415,12 @@
       rowClass : "suggest_item",
       rowTextClass : "suggestion_title",
       rowThumbnailClass : "thumbnail",
-      rowDescriptionClass : "description"
+      rowDescriptionClass : "description",
+      template: '<div id="[rowId]" class="[rowClass]" id_field="[id_field]" seq_id="[seq_id]" >' +
+          '<div class="[thumbnailClass]" style="[style]"></div>' +
+          '<div class="[textClass]">[text]</div>' +
+          '<div class="[descriptionClass]">[description]</div>' +
+        '</div>'
     };
     $.extend(settings, options);
 

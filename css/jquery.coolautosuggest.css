@@ -13,6 +13,10 @@
 	border-right:1px solid #CCCCCC;
 }
 
+.suggestions .suggest_item.even {
+  background-color:#DDDDDD;
+}
+
 /*
  For creating top border like this
  ------------
