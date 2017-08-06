@@ -38,7 +38,10 @@ $("#text1").coolautosuggest({
       <div>
         <form>
           <p>The auto-suggest can also return an ID. You just need to prepare the input element for storing it and then pass one additional parameter, <b>idField</b>.</p>
-          Public figure name : <input type="text" name="text2" id="text2" /> ID : <input type="text" name="text2_id" id="text2_id" size="5" />
+          <table>
+            <tr><td>Public figure name :</td><td><input type="text" name="text2" id="text2" /></td></tr>
+            <tr><td>ID :</td><td><input type="text" name="text2_id" id="text2_id" size="5" /></td></tr>
+          </table>
           <script language="javascript" type="text/javascript">
             $("#text2").coolautosuggest({
               url:"data.php?chars=",
@@ -94,7 +97,10 @@ $("#text3").coolautosuggest({
             <li><b>minChars</b>. By default, the auto-suggest will appear if you type the first letter. You can set the number characters typed to trigger the auto-suggest to appear by using this parameter.</li>
             <li><b>submitOnSelect</b>. By setting this parameter value to <b>true</b>, the form will be submitted once you click one of the item in the auto-suggest list.</li>
           </ul>
-          Public figure name : <input type="text" name="text4" id="text4" /> ID : <input type="text" name="text4_id" id="text4_id" size="5" />
+          <table>
+            <tr><td>Public figure name :</td><td><input type="text" name="text4" id="text4" /></td></tr>
+            <tr><td>ID :</td><td><input type="text" name="text4_id" id="text4_id" size="5" /></td></tr>
+          </table>
           <script language="javascript" type="text/javascript">
             $("#text4").coolautosuggest({
               url:"data.php?chars=",
@@ -243,7 +249,8 @@ $("#text6").coolautosuggest({
 </pre>
         <br/>
         <b><i>Note :</i></b>
-        <p><i>The <b>additionalFields</b> should be in key value pair. The string we used for the key is flexible, it can be "&amp;profession=" or "/profession/" or anything depending on your needs.</i></p>
+        <p><i>The <b>additionalFields</b> should be in key-value pair. The string we used for the key is flexible, it can be "&amp;profession=" or "/profession/" or anything depend on your needs.</i></p>
+        <p><i>The value part should be the element object, not its value. As we see in the example, the correct value is <b>$("select[name=profession]")</b> not <b>$("select[name=profession]").val()</b>.</i></p>
         </form>
       </div>
     </div>
