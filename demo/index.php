@@ -7,7 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script language="javascript" type="text/javascript" src="../js/jquery.coolautosuggest.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/jquery.coolautosuggest.css" />
-  <link rel="stylesheet" type="text/css" href="../css/main.css" />
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
   <h1>jQuery Cool Auto-Suggest</h1>
