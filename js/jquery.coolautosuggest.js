@@ -177,6 +177,7 @@
                         target.click(function(e){
                           var t = $(this);
                           highlight(t);
+                          select(t)
 
                           // Callback function
                           if(typeof settings.onSelected == "function"){
@@ -230,24 +231,24 @@
     textField.bind(
       "blur",
       function(e){
-        if(settings.idField!=null){
-          if(me.checkSelected(textField.val())==false){
-            textField.val("");
-            settings.idField.val("");
+        if(hovered==false){
+          if(typeof settings.onSelected == "function"){
+            settings.onSelected.call(this, null);
+          }
+        }
+        else{
+          var target=holder.find("#" + suggestRow + currRow);
+          highlight(target)
+          select(target)
+
+          hovered=false;
+
+          if(typeof settings.onSelected == "function" && currRow>0){
+            settings.onSelected.call(this, arrData[currRow-1]);
           }
         }
 
-        if(hovered==false){
-          me.hide();
-        }
-        else{
-          hovered=false;
-        }
-
-        if(typeof settings.onSelected == "function" && currRow>0){
-          settings.onSelected.call(this, arrData[currRow-1]);
-          me.hide();
-        }
+        me.hide();
       }
     );
 
@@ -330,12 +331,9 @@
           }
         }
         else if(e.keyCode==13){
-          if(settings.idField!=null){
-            if(me.checkSelected(textField.val())==false){
-              textField.val("");
-              settings.idField.val("");
-            }
-          }
+          var target=holder.find("#" + suggestRow + currRow);
+          highlight(target)
+          select(target)
 
           // Callback function
           if(typeof settings.onSelected == "function"){
@@ -364,9 +362,12 @@
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
 
-    function highlight(obj, e) {
+    function highlight(obj) {
       obj.addClass("selected");
-      textField.val(obj.find("." + suggestText).text());
+    }
+
+    function select(obj) {
+      textField.val(obj.find("." + suggestText).text())
       if(settings.idField!=null){
         settings.idField.val(obj.attr("id_field"));
       }
